@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"ru.geekbrains.lesson01.regular"},{"l":"ru.geekbrains.lesson01.sample"}]
