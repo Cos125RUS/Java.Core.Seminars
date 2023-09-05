@@ -1,4 +1,6 @@
-package ru.geekbrains.lesson3;
+package ru.geekbrains.lesson3.Comparators;
+
+import ru.geekbrains.lesson3.Employee;
 
 import java.util.Comparator;
 

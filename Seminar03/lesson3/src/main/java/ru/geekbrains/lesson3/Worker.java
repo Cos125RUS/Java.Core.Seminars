@@ -5,15 +5,15 @@ import java.util.List;
 
 public class Worker extends Employee{
 
-    private Worker(String surName, String name, double salary){
-        super(surName, name, salary);
-        //System.out.println("Constructor - Worker");
+    private Worker(String surName, String name, int age, double salary){
+        super(surName, name, age, 1, "Работяга", salary);
     }
 
     public static Employee getInstance(){
         return new Worker(
                 surNames[random.nextInt(surNames.length)],
                 names[random.nextInt(surNames.length)],
+                random.nextInt(18,90),
                 random.nextInt(30, 250) * 1000);
     }
 
@@ -30,8 +30,8 @@ public class Worker extends Employee{
     }
 
     @Override
-    public String toString() {
-        return String.format("%s %s; Рабочий; Среднемесячная заработная плата (фиксированная месячная оплата): %.2f (руб.)",
-                surName, name, salary);
+    public String viewSalaryInfo() {
+        return String.format("Зарплата (фиксированная месячная оплата): %.2f руб./мес.", salary);
     }
+
 }

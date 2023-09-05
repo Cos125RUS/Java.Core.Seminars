@@ -1,8 +1,10 @@
 package ru.geekbrains.lesson3;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
-public abstract class Employee implements Comparable<Employee> {
+public abstract class Employee  {
 
     //region Public Methods
 
@@ -12,21 +14,16 @@ public abstract class Employee implements Comparable<Employee> {
      */
     public abstract double calculateSalary();
 
-    @Override
-    public int compareTo(Employee o) {
-        return Double.compare(calculateSalary(), o.calculateSalary());
-        //return calculateSalary() == o.calculateSalary() ? 0 :
-        //        calculateSalary() > o.calculateSalary() ? 1 : -1;
-    }
+    /**
+     * Вся информация о зарплате сотрудника
+     * @return
+     */
+    public abstract String viewSalaryInfo();
 
     @Override
     public String toString() {
-        return "Employee{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surName='" + surName + '\'' +
-                ", salary=" + salary +
-                '}';
+        return String.format("%d; %s %s; Возраст: %d; %s; %s",
+                id, surName, name, age, position, viewSalaryInfo());
     }
 
     //endregion
@@ -34,7 +31,6 @@ public abstract class Employee implements Comparable<Employee> {
     //region Constructors And Initializers
 
     {
-        //System.out.println("Initialize - Employee");
         id = ++counter;
     }
 
@@ -46,14 +42,29 @@ public abstract class Employee implements Comparable<Employee> {
         this(surName, name, 500);
     }
 
-    protected Employee(String surName, String name, double salary){
-        //System.out.println("Constructor - Employee");
+    private Employee(String surName, String name, double salary){
         if (salary < 500){
             throw new RuntimeException("Ставка заработной платы должна быть не менее 500");
         }
         this.surName = surName;
         this.name = name;
         this.salary = salary;
+    }
+
+    private Employee(String surName, String name, int age, double salary){
+        this(surName, name, salary);
+        if (age < 18){
+            throw new RuntimeException("Детский труд в стране запрешён!");
+        } else if (age > 90) {
+            throw new RuntimeException("Дай деду пожить перед смертью!");
+        }
+        this.age = age;
+    }
+
+    protected Employee(String surName, String name, int age, int posID, String position, double salary) {
+        this(surName, name, age, salary);
+        this.posID = posID;
+        this.position = position;
     }
 
     //endregion
@@ -76,6 +87,14 @@ public abstract class Employee implements Comparable<Employee> {
         return salary;
     }
 
+    public int getAge() {
+        return age;
+    }
+
+    public int getPosID() {
+        return posID;
+    }
+
     public void setSalary(double salary) {
         if (salary < 30000){
             throw new RuntimeException("Уровень заработной платы должен быть не менее 30000");
@@ -87,7 +106,7 @@ public abstract class Employee implements Comparable<Employee> {
 
     //region Fields
 
-    private int id;
+    protected int id;
 
     /**
      * Имя
@@ -104,6 +123,22 @@ public abstract class Employee implements Comparable<Employee> {
      */
     protected double salary;
 
+    /**
+     * Возраст
+     */
+    protected int age;
+
+    /**
+     * Должность
+     */
+    protected String position;
+
+    /**
+     * ID должности
+     */
+    protected int posID;
+
+
     //endregion
 
     //region Static Fields
@@ -112,6 +147,7 @@ public abstract class Employee implements Comparable<Employee> {
     protected static String[] surNames = new String[] { "Григорьев", "Фокин", "Шестаков", "Хохлов", "Шубин", "Бирюков", "Копылов", "Горбунов", "Лыткин", "Соколов" };
     protected static Random random = new Random();
     private static int counter = 1000;
+
 
     //endregion
 
