@@ -8,8 +8,9 @@ public class Program {
         company.addRandomEmployees(20);
         company.print();
         company.sortEmployee();
-        company.print();
-
-
+//        company.print();
+        for (Employee e: company) {
+            System.out.println(e);
+        }
     }
 }

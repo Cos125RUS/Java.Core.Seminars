@@ -19,6 +19,7 @@ public class Worker extends Employee{
 
     public static List<Employee> getEmployees(int count){
         List<Employee> employees = new ArrayList<>();
+
         for (int i = 0; i < count; i++)
             employees.add(getInstance());
         return employees;

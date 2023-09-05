@@ -7,10 +7,12 @@ import ru.geekbrains.lesson3.Comparators.EmployeeSalaryComparator;
 
 import java.util.*;
 
-public class Company {
+public class Company implements Iterable<Employee>{
+    //region fields
     private List<Employee> employees;
     private Scanner scanner;
     private Random random;
+    //endregion
 
     public Company() {
         this.employees = new ArrayList<>();
@@ -18,14 +20,28 @@ public class Company {
         this.random = new Random();
     }
 
+    //region adders
+
+    /**
+     * Добавляет работяг
+     * @param count количество работяг
+     */
     public void addWorkers(int count){
         employees.addAll(Worker.getEmployees(count));
     }
 
+    /**
+     * Добавляет фрилансеров
+     * @param count количество фрилансеров
+     */
     public void addFreelancers(int count){
         employees.addAll(Freelancer.getEmployees(count));
     }
 
+    /**
+     * Добавляет рандомных служащих
+     * @param count количество душ
+     */
     public void addRandomEmployees(int count){
         for (int i = 0; i < count; i++) {
             if (random.nextBoolean())
@@ -34,7 +50,13 @@ public class Company {
                 employees.add(Freelancer.getInstance());
         }
     }
+    //endregion
 
+    //region methods
+
+    /**
+     * Распечатать список служащих
+     */
     public void print() {
         for (Employee employee : employees) {
             System.out.println(employee);
@@ -42,6 +64,9 @@ public class Company {
         System.out.println();
     }
 
+    /**
+     * Отсортировать служащих
+     */
     public void sortEmployee() {
         menu();
         int choice = enter();
@@ -57,6 +82,9 @@ public class Company {
         }
     }
 
+    /**
+     * Меню сортировки
+     */
     private void menu(){
         System.out.print("Выберите тип сортировки:\n" +
                 "1 - по зарплате\n" +
@@ -65,6 +93,10 @@ public class Company {
                 "4 - по должности\n>>> ");
     }
 
+    /**
+     * Ввод значения для выбора сортировки
+     * @return
+     */
     private int enter(){
         int num;
         while (true) {
@@ -79,4 +111,21 @@ public class Company {
         }
         return num;
     }
+
+    @Override
+    public Iterator<Employee> iterator() {
+        return new Iterator<Employee>() {
+            private int index = 0;
+            @Override
+            public boolean hasNext() {
+                return index < employees.size();
+            }
+
+            @Override
+            public Employee next() {
+                return employees.get(index++);
+            }
+        };
+    }
+    //endregion
 }
