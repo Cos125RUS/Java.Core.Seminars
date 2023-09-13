@@ -49,9 +49,9 @@ public class BackUp {
     }
 
     private static void copy(File file, String rootWay) throws IOException {
-        try (FileOutputStream fileOutputStream = new FileOutputStream(file.getAbsolutePath())) {
+        try (FileOutputStream fileOutputStream = new FileOutputStream(rootWay)) {
             int c;
-            try (FileInputStream fileInputStream = new FileInputStream(rootWay)) {
+            try (FileInputStream fileInputStream = new FileInputStream(file)) {
                 while ((c = fileInputStream.read()) != -1)
                     fileOutputStream.write(c);
             }
