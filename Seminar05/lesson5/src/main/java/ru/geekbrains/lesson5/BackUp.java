@@ -9,11 +9,12 @@ public class BackUp {
     public static void main(String[] args) throws IOException {
         File copy = new File(".");
         File paste = new File("./../backup");
-        Files.createDirectories(Paths.get("./../backup"));
+
         backUp(copy, paste);
     }
 
     public static void backUp(File copy, File paste) throws IOException {
+        Files.createDirectories(Paths.get(paste.getName()));
         String rootWay = paste.getAbsolutePath() + "/" + getName(copy);
         Files.createDirectories(Paths.get(rootWay));
         analysis(copy, rootWay);
@@ -45,9 +46,7 @@ public class BackUp {
     }
 
     private static String getName(File file) throws IOException {
-        String[] way = file.getCanonicalPath()
-                .replace("\\", "/").split("/");
-        return way[way.length - 1];
+        return (new File(file.getCanonicalPath())).getName();
     }
 
     private static void copy(File file, String rootWay) throws IOException {

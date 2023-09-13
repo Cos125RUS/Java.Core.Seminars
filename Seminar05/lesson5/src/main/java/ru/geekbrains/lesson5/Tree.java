@@ -16,9 +16,8 @@ public class Tree {
      */
     public static void print(File file, String indent)
             throws IOException {
-        String[] pathDirs = file.getCanonicalPath()
-                .replace("\\", "/").split("/");
-        System.out.println("\u001B[31m" + pathDirs[pathDirs.length - 1] + "\u001B[0m");
+        System.out.println("\u001B[31m" + (new File(file.getCanonicalPath())).getName()
+                + "\u001B[0m");
 
         root(file, indent);
     }
