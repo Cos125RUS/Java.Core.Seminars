@@ -25,6 +25,8 @@ public class BackUp {
             Files.createDirectories(Paths.get(rootWay));
             analysis(file, rootWay);
         } else {
+            if (Paths.get(rootWay).toFile().exists())
+                Paths.get(rootWay).toFile().delete();
             Files.createFile(Paths.get(rootWay));
             copy(file, rootWay);
         }
