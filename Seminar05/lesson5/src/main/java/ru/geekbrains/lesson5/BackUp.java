@@ -14,7 +14,7 @@ public class BackUp {
     }
 
     public static void backUp(File copy, File paste) throws IOException {
-        Files.createDirectories(Paths.get(paste.getName()));
+        Files.createDirectories(Paths.get(paste.getAbsolutePath()));
         String rootWay = paste.getAbsolutePath() + "/" + getName(copy);
         Files.createDirectories(Paths.get(rootWay));
         analysis(copy, rootWay);
