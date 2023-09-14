@@ -21,7 +21,7 @@ public class BackUp {
     }
 
     private static void backUp(File file, String rootWay) throws IOException {
-        rootWay += "/" + getName(file);
+        rootWay += "/" + file.getName();
         Path way= Paths.get(rootWay);
         if (file.isDirectory()){
             Files.createDirectories(way);
