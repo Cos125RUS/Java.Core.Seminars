@@ -22,13 +22,14 @@ public class BackUp {
 
     private static void backUp(File file, String rootWay) throws IOException {
         rootWay += "/" + getName(file);
+        Path way= Paths.get(rootWay);
         if (file.isDirectory()){
-            Files.createDirectories(Paths.get(rootWay));
+            Files.createDirectories(way);
             analysis(file, rootWay);
         } else {
-            if (Paths.get(rootWay).toFile().exists())
-                Paths.get(rootWay).toFile().delete();
-            Files.createFile(Paths.get(rootWay));
+            if (way.toFile().exists())
+                way.toFile().delete();
+            Files.createFile(way);
             copy(file, rootWay);
         }
     }
