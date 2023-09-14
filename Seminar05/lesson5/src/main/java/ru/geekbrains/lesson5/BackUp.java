@@ -5,6 +5,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * Класс для создания BackUp-ов
+ */
 public class BackUp {
     public static void main(String[] args) throws IOException {
         File copy = new File(".");
@@ -13,45 +16,75 @@ public class BackUp {
         backUp(copy, paste);
     }
 
+    /**
+     * Подготавливает новую директорию для BackUp-а, запускает обход
+     * @param copy
+     * @param paste
+     * @throws IOException
+     */
     public static void backUp(File copy, File paste) throws IOException {
         Files.createDirectories(Paths.get(paste.getAbsolutePath()));
-        String rootWay = paste.getAbsolutePath() + "/" + getName(copy);
-        Files.createDirectories(Paths.get(rootWay));
-        analysis(copy, rootWay);
+        String rootPath = paste.getAbsolutePath() + "/" + getName(copy);
+        Files.createDirectories(Paths.get(rootPath));
+        analysis(copy, rootPath);
     }
 
-    private static void backUp(File file, String rootWay) throws IOException {
-        rootWay += "/" + file.getName();
-        Path way= Paths.get(rootWay);
+    /**
+     * Создаёт новые директории в папке BackUp-а или запускает копирование файла
+     * @param file
+     * @param rootPath
+     * @throws IOException
+     */
+    private static void backUp(File file, String rootPath) throws IOException {
+        rootPath += "/" + file.getName();
+        Path path= Paths.get(rootPath);
         if (file.isDirectory()){
-            Files.createDirectories(way);
-            analysis(file, rootWay);
+            Files.createDirectories(path);
+            analysis(file, rootPath);
         } else {
-            if (way.toFile().exists())
-                way.toFile().delete();
-            Files.createFile(way);
-            copy(file, rootWay);
+            if (path.toFile().exists())
+                path.toFile().delete();
+            Files.createFile(path);
+            copy(file, rootPath);
         }
     }
 
-    private static void analysis(File file, String rootWay) throws IOException {
+    /**
+     * Проверяет является ли файл директорией и запускает новый уровень рекурсии
+     * @param file
+     * @param rootPath
+     * @throws IOException
+     */
+    private static void analysis(File file, String rootPath) throws IOException {
         File[] files = file.listFiles();
         if (files == null)
             return;
 
         if (files.length > 0) {
             for (int i = 0; i < files.length; i++) {
-                backUp(files[i], rootWay);
+                backUp(files[i], rootPath);
             }
         }
     }
 
+    /**
+     * Возвращает корректное имя корневой директории
+     * @param file
+     * @return
+     * @throws IOException
+     */
     private static String getName(File file) throws IOException {
         return (new File(file.getCanonicalPath())).getName();
     }
 
-    private static void copy(File file, String rootWay) throws IOException {
-        try (FileOutputStream fileOutputStream = new FileOutputStream(rootWay)) {
+    /**
+     * Копирование файлов
+     * @param file
+     * @param path
+     * @throws IOException
+     */
+    public static void copy(File file, String path) throws IOException {
+        try (FileOutputStream fileOutputStream = new FileOutputStream(path)) {
             int c;
             try (FileInputStream fileInputStream = new FileInputStream(file)) {
                 while ((c = fileInputStream.read()) != -1)
